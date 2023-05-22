@@ -4,13 +4,15 @@ plugins {
     id 'maven-publish'
     id 'se.patrikerdes.use-latest-versions' version '0.2.18'
     id 'com.github.ben-manes.versions' version '0.46.0'
-    id 'org.beryx.runtime' version '1.12.7'
+    id 'org.beryx.runtime' version '1.12.7' 
 }
 
 group = 'xpu'
 
 def USER_HOME = "$System.env.HOME"
-def PROJECT_HOME = rootProject.file('.git')
+def PROJECT_HOME = rootProject.file('.')
+
+
 
 repositories {
     mavenLocal()
@@ -76,35 +78,41 @@ sourceCompatibility = '19'
 targetCompatibility = '19'
 
 scmVersion {
+    // doc: Dry run
+    localOnly.set( true )// never connect to remote
+    
+    // doc: Version / Tag with highest version
+    useHighestVersion.set(true) 
+    
+    // doc: Uncommitted changes
+    ignoreUncommittedChanges.set(true) // should uncommitted changes force version bump
+        
+    // doc: Version / Sanitization
+    sanitizeVersion.set(true) // should created version be sanitized, true by default
+    
+    tag { // doc: Version / Parsing
+        prefix.set('v')
+        versionSeparator.set('')  // separator between prefix and version number, '' by default, empty String means no separator
+       
+    }
+     
     repository {
         // doc: Repository
         type = 'git' // type of repository
         directory = PROJECT_HOME // repository location
         remote = 'main' // remote name
     }
-
-    tag { // doc: Version / Parsing
-        prefix = 'v'
-        versionSeparator = ''  // separator between prefix and version number, '' by default, empty String means no separator
-    }
-
-    // doc: Dry run
-    localOnly = true // never connect to remote
-
-    // doc: Uncommitted changes
-    ignoreUncommittedChanges = false // should uncommitted changes force version bump
-
+   
     // doc: Pre-release checks
     checks {
-        uncommittedChanges = false // permanently disable uncommitted changes check
-        aheadOfRemote = false // permanently disable ahead of remote check
+        uncommittedChanges.set(false) // permanently disable uncommitted changes check
+        aheadOfRemote.set(false) // permanently disable ahead of remote check
     }
 }
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
-
 
 allprojects {
     project.version = scmVersion.version.replaceAll("-SNAPSHOT","")
@@ -123,6 +131,7 @@ configurations {
 dependencies {
     deployerJars "io.packagecloud.maven.wagon:maven-packagecloud-wagon:0.0.6"
 }
+
 
 publishing {
     repositories {
@@ -144,6 +153,7 @@ publishing {
     }
 }
 
+
 tasks.named("dependencyUpdates").configure {
 
 }
@@ -155,14 +165,18 @@ jar {
     exclude('META-INF/*.RSA')
     exclude('META-INF/*.DSA')
     
-    def currentTag = "v" + System.getenv("GITHUB_REF_SLUG")
-    archiveName = "xpu-sdk-libs-${currentTag}.jar"
-    
-//    dependsOn(release { classifier = null })
+    //dependsOn(release { classifier = null })
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     from {
         configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
-    }    
+    }
+    
+    //Check available tags
+    doLast {
+        def process = 'git ls-remote --tags https://github.com/arhacc/sdk-libs'.execute()
+        def tags = process.text.readLines()*.split()*.last().collect { it.replaceAll('refs/tags/', '') }
+        logger.lifecycle("TAGS : ${tags}")
+    }   
 }
 
 runtime {
@@ -210,11 +224,6 @@ useLatestVersions {
    rootVersionFiles = ['gradle.properties']
 }
 
-task printScmTagName {
-    doLast {
-        println scmVersion.tag.name
-    }
-}
 
 tasks.publishToMavenLocal.dependsOn('jar')
 tasks.build.dependsOn('publishToMavenLocal')
@@ -223,6 +232,7 @@ tasks.publish.dependsOn('jar')
 tasks.verifyRelease.dependsOn('compileJava')
 tasks.verifyRelease.dependsOn('processResources')
 tasks.verifyRelease.dependsOn('generatePomFileForMavenJavaPublication')
+
 tasks.release.dependsOn('compileJava')
 tasks.release.dependsOn('processResources')
 tasks.release.dependsOn('generatePomFileForMavenJavaPublication')
