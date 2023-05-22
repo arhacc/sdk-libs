@@ -154,9 +154,10 @@ jar {
     exclude('META-INF/*.SF')
     exclude('META-INF/*.RSA')
     exclude('META-INF/*.DSA')
-     
-    def currentTag = scmVersion.tag.name
+    
+    def currentTag = "v" + System.getenv("GITHUB_REF_SLUG")
     archiveName = "xpu-sdk-libs-${currentTag}.jar"
+    
 //    dependsOn(release { classifier = null })
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     from {
