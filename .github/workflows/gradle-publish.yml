@@ -34,7 +34,7 @@ jobs:
       id: extract_tag
       run: |
         TAG=$(git describe --tags)
-        echo ${TAG}
+        echo "${TAG}"
         echo "TAG=${TAG}" >> $GITHUB_ENV
     - name: Publish to GitHub Packages
       run: |
