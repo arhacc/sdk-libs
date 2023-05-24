@@ -30,14 +30,12 @@ jobs:
       run: |
         echo "github_maven_user=arhacc" >> gradle.properties
         echo "github_maven_password=${{ secrets.GITHUB_TOKEN }}" >> gradle.properties
-    
     - name: Extract tag
       id: extract_tag
       run: |
         TAG=$(git describe --tags)
         echo ${TAG}
         echo "TAG=${TAG}" >> $GITHUB_ENV
-    
     - name: Publish to GitHub Packages
       run: |
          TAG=$(cat $GITHUB_ENV | grep TAG | awk -F= '{print $2}')
