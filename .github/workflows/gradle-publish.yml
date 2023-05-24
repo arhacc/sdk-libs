@@ -34,7 +34,7 @@ jobs:
     - name: Extract tag
       id: extract_tag
       run: |
-        TAG=$(git describe --tags abbrev=0)
+        TAG=$(git describe --tags)
         echo "::set-output name=tag::${TAG}"
     
     - name: Publish to GitHub Packages
