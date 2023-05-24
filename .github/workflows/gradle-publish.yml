@@ -30,15 +30,9 @@ jobs:
       run: |
         echo "github_maven_user=arhacc" >> gradle.properties
         echo "github_maven_password=${{ secrets.GITHUB_TOKEN }}" >> gradle.properties
-    - name: Extract tag
-      id: extract_tag
+    - name: Publish to GitHub Packages
       run: |
         TAG=$(git describe --tags)
         echo ${TAG}
-        echo "TAG=${TAG}" >> $GITHUB_OUTPUT
-    - name: Publish to GitHub Packages
-      run: |
-        TAG=$(cat $GITHUB_OUTPUT | grep TAG | awk -F= '{print $2}')
-        echo ${TAG}
-        ./gradlew publish -ParchiveName=xpu-sdk-libs-v${TAG}.jar
+        ./gradlew publish -ParchiveName=xpu-sdk-libs-${TAG}.jar
 
