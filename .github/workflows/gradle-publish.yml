@@ -38,5 +38,5 @@ jobs:
     - name: Publish to GitHub Packages
       run: |
         TAG=$(cat $GITHUB_OUTPUT | grep TAG | awk -F= '{print $2}')
-        ./gradlew publish -ParchiveName=xpu-sdk-libs-v${{ TAG }}.jar
+        ./gradlew publish -ParchiveName=xpu-sdk-libs-v${TAG}.jar
 
