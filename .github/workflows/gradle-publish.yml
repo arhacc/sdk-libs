@@ -35,9 +35,11 @@ jobs:
       id: extract_tag
       run: |
         TAG=$(git describe --tags)
-        echo "::set-output name=tag::${TAG}"
+        echo ${TAG}
+        echo "TAG=${TAG}" >> $GITHUB_ENV
     
     - name: Publish to GitHub Packages
       run: |
-        ./gradlew publish -ParchiveName=xpu-sdk-libs-v${{ steps.extract_tag.outputs.tag }}.jar
+         TAG=$(cat $GITHUB_ENV | grep TAG | awk -F= '{print $2}')
+        ./gradlew publish -ParchiveName=xpu-sdk-libs-v${{{ TAG }}.jar
 
