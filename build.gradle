@@ -71,7 +71,7 @@ dependencies {
     implementation ('org.assertj:assertj-core:3.24.2');
     implementation ('javax.json:javax.json-api:1.1.4');
     implementation ('com.fasterxml.jackson.core:jackson-databind:2.15.0');
-    implementation ('org.ajoberstar:grgit:4.2.0');
+    //implementation ('org.ajoberstar:grgit:4.2.0');
 }
 import org.ajoberstar.grgit.Grgit
 
@@ -207,7 +207,6 @@ runtime {
 
 tasks.runtime.doLast {
     def archiveName = jar.archiveFile.asFile.get().name
-    println archiveFile;
     delete fileTree(dir:"$USER_HOME/.xpu/lib/", include: 'xpu-sdk-libs-*.jar') 
     copy{
         from "$buildDir/install/xpu-sdk-libs/lib/$archiveName"
