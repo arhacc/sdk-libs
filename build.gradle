@@ -166,11 +166,15 @@ jar {
     
     //Check if scmVersion will provide the correct tag
     doLast {
-        def process = 'git ls-remote --tags https://github.com/arhacc/sdk-libs'.execute()
-        def tags = process.text.readLines()*.split()*.last().collect { it.replaceAll('refs/tags/', '') }
-        def sortedTags = tags.sort()
+        def process = 'git describe --tags'.execute();
+        process.waitFor()
+        def output = process.text.trim()
+        def tag = output.substringBefore('-')
+        //def process = 'git ls-remote --tags https://github.com/arhacc/sdk-libs'.execute()
+        //def tags = process.text.readLines()*.split()*.last().collect { it.replaceAll('refs/tags/', '') }
+        //def sortedTags = tags.sort()
         //println "Tags: $tags"
-        logger.lifecycle("TAGS : ${tags}")
+        logger.lifecycle("TAGS : ${tag}")
     }   
 }
 
