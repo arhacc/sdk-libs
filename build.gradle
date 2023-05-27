@@ -168,7 +168,7 @@ jar {
     doLast {
         logger.lifecycle("Tag Prefix name: ${scmVersion.tag.prefix}")
 
-        logger.lifecycle("Project version : ${project.version}")
+        logger.lifecycle("Project version : ${jar.archiveFile.asFile.get().name}")
     }   
 }
 
