@@ -203,6 +203,7 @@ runtime {
 
 tasks.runtime.doLast {
     def archiveName = jar.archiveFile.asFile.get().name
+    println archiveFile;
     delete fileTree(dir:"$USER_HOME/.xpu/lib/", include: 'xpu-sdk-libs-*.jar') 
     copy{
         from "$buildDir/install/xpu-sdk-libs/lib/$archiveName"
@@ -220,7 +221,6 @@ useLatestVersions {
 task printScmTagName {
     doLast {
         println scmVersion.tag.name
-        logger.lifecycle("Tag name: ${scmVersion.tag.name}")
     }
 }
 
