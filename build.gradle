@@ -5,6 +5,7 @@ plugins {
     id 'se.patrikerdes.use-latest-versions' version '0.2.18'
     id 'com.github.ben-manes.versions' version '0.46.0'
     id 'org.beryx.runtime' version '1.12.7'
+    id 'org.ajoberstar.grgit' version '4.1.0' 
 }
 
 group = 'xpu'
@@ -166,9 +167,10 @@ jar {
     
     //Check if scmVersion will provide the correct tag
     doLast {
-        logger.lifecycle("Tag Prefix name: ${scmVersion.tag.prefix}")
-
-        logger.lifecycle("JAR name : ${jar.archiveFile.asFile.get().name}")
+        def grgit = Grgit.open()
+        def tag = grgit.tag.list().latest()
+        //println "Tag-ul curent al repository-ului Git este: $tag"
+        logger.lifecycle("TAG name : ${tag}")
     }   
 }
 
