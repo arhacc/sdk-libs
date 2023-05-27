@@ -162,7 +162,13 @@ jar {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     from {
         configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
-    }    
+    }
+    
+    //Check if scmVersion will provide the correct tag
+    doLast {
+        logger.lifecycle("Tag name: ${scmVersion.tag.name}")
+        logger.lifecycle("Archive name: ${archiveName}")
+    }   
 }
 
 runtime {
@@ -213,6 +219,7 @@ useLatestVersions {
 task printScmTagName {
     doLast {
         println scmVersion.tag.name
+        logger.lifecycle("Tag name: ${scmVersion.tag.name}")
     }
 }
 
