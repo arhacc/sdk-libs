@@ -166,7 +166,8 @@ jar {
     
     //Check if scmVersion will provide the correct tag
     doLast {
-        logger.lifecycle("Tag name: ${scmVersion.tag.name}")
+        logger.lifecycle("Tag name: ${scmVersion.tag}")
+        
         logger.lifecycle("Archive name: ${archiveName}")
     }   
 }
