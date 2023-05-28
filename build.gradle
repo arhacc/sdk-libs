@@ -28,6 +28,9 @@ repositories {
     maven {
         url = uri('https://repo1.maven.org/maven2/')
     }
+    maven { 
+        url = uri("https://oss.sonatype.org/content/repositories/snapshots/")
+    }
 }
 
 
@@ -70,6 +73,18 @@ dependencies {
     implementation ('org.assertj:assertj-core:3.24.2');
     implementation ('javax.json:javax.json-api:1.1.4');
     implementation ('com.fasterxml.jackson.core:jackson-databind:2.15.0');
+
+    implementation ('org.apache.maven:maven-resolver-provider:3.8.1');
+    implementation ('org.apache.maven.resolver:maven-resolver-api:1.6.2');
+    implementation ('org.apache.maven.resolver:maven-resolver-util:1.6.2');
+    implementation ('org.eclipse.aether:aether-impl:1.1.0');
+    implementation ('org.eclipse.aether:aether-api:1.1.0');
+    implementation ('org.eclipse.aether:aether-util:1.1.0');
+    implementation 'org.eclipse.aether:aether-connector-basic:1.1.0'
+    implementation 'org.eclipse.aether:aether-transport-http:1.1.0'
+    implementation 'org.eclipse.aether:aether-transport-file:1.1.0'
+    implementation 'org.apache.httpcomponents:httpclient:4.5.13'
+ 
 }
 
 sourceCompatibility = '19'
