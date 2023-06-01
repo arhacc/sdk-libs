@@ -124,12 +124,14 @@ dependencies {
     deployerJars "io.packagecloud.maven.wagon:maven-packagecloud-wagon:0.0.6"
 }
 
+
 publishing {
     repositories {
         mavenLocal()
         maven {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/arhacc/sdk-libs")
+            credentials {
                 username = github_maven_user
                 password = github_maven_password
             }
@@ -142,6 +144,7 @@ publishing {
         }
     }
 }
+
 
 tasks.named("dependencyUpdates").configure {
 
