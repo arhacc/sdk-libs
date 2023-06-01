@@ -12,6 +12,8 @@ group = 'xpu'
 def USER_HOME = "$System.env.HOME"
 def PROJECT_HOME = rootProject.file('.')
 
+
+
 repositories {
     mavenLocal()
     gradlePluginPortal()
@@ -200,11 +202,7 @@ runtime {
             installerOptions += ['--linux-package-name', 'hellofx','--linux-shortcut']
         }
         else if (currentOs.macOsX) {
-            installerOptions += ['--mac-package-name', 'hellofx']task printScmTagName {
-    doLast {
-        println scmVersion.tag.name
-    }
-}
+            installerOptions += ['--mac-package-name', 'hellofx']
         }
     }
 }
@@ -212,11 +210,7 @@ runtime {
 tasks.runtime.doLast {
     def archiveName = jar.archiveFile.asFile.get().name
     delete fileTree(dir:"$USER_HOME/.xpu/lib/", include: 'xpu-sdk-libs-*.jar') 
-    copy{task printScmTagName {
-    doLast {
-        println scmVersion.tag.name
-    }
-}
+    copy{
         from "$buildDir/install/xpu-sdk-libs/lib/$archiveName"
         into "$USER_HOME/.xpu/lib/"
     }
@@ -229,14 +223,8 @@ useLatestVersions {
    rootVersionFiles = ['gradle.properties']
 }
 
-task printScmTagName {
-    doLast {
-        println scmVersion.tag.name
-    }
-}
 
 tasks.publishToMavenLocal.dependsOn('jar')
-tasks.publishToMavenLocal.dependsOn('printScmTagName')
 tasks.build.dependsOn('publishToMavenLocal')
 tasks.publish.dependsOn('jar')
 
