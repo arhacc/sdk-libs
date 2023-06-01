@@ -130,8 +130,6 @@ publishing {
         maven {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/arhacc/sdk-libs")
-            credentials {Caused by: java.lang.IllegalAccessException: module java.base does not open java.lang to unnamed module @7e7be63f
-
                 username = github_maven_user
                 password = github_maven_password
             }
