@@ -151,11 +151,9 @@ tasks.named("dependencyUpdates").configure {
 }
 
 jar {    
-    manifest.attributes('Multi-Release': 'true')task printScmTagName {
-    doLast {
-        println scmVersion.tag.name
-    }
-}
+    manifest.attributes('Multi-Release': 'true')
+
+
 
     exclude('META-INF/*.SF')
     exclude('META-INF/*.RSA')
@@ -175,11 +173,7 @@ jar {
         def process = 'git ls-remote --tags https://github.com/arhacc/sdk-libs'.execute()
         def tags = process.text.readLines()*.split()*.last().collect { it.replaceAll('refs/tags/', '') }
         logger.lifecycle("TAGS : ${tags}")
-    }   task printScmTagName {
-    doLast {
-        println scmVersion.tag.name
-    }
-}
+    }   
 }
 
 runtime {
