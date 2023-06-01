@@ -130,7 +130,8 @@ publishing {
         maven {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/arhacc/sdk-libs")
-            credentials {
+            credentials {Caused by: java.lang.IllegalAccessException: module java.base does not open java.lang to unnamed module @7e7be63f
+
                 username = github_maven_user
                 password = github_maven_password
             }
@@ -149,7 +150,11 @@ tasks.named("dependencyUpdates").configure {
 }
 
 jar {    
-    manifest.attributes('Multi-Release': 'true')
+    manifest.attributes('Multi-Release': 'true')task printScmTagName {
+    doLast {
+        println scmVersion.tag.name
+    }
+}
 
     exclude('META-INF/*.SF')
     exclude('META-INF/*.RSA')
@@ -169,7 +174,11 @@ jar {
         def process = 'git ls-remote --tags https://github.com/arhacc/sdk-libs'.execute()
         def tags = process.text.readLines()*.split()*.last().collect { it.replaceAll('refs/tags/', '') }
         logger.lifecycle("TAGS : ${tags}")
-    }   
+    }   task printScmTagName {
+    doLast {
+        println scmVersion.tag.name
+    }
+}
 }
 
 runtime {
@@ -196,7 +205,11 @@ runtime {
             installerOptions += ['--linux-package-name', 'hellofx','--linux-shortcut']
         }
         else if (currentOs.macOsX) {
-            installerOptions += ['--mac-package-name', 'hellofx']
+            installerOptions += ['--mac-package-name', 'hellofx']task printScmTagName {
+    doLast {
+        println scmVersion.tag.name
+    }
+}
         }
     }
 }
@@ -204,7 +217,11 @@ runtime {
 tasks.runtime.doLast {
     def archiveName = jar.archiveFile.asFile.get().name
     delete fileTree(dir:"$USER_HOME/.xpu/lib/", include: 'xpu-sdk-libs-*.jar') 
-    copy{
+    copy{task printScmTagName {
+    doLast {
+        println scmVersion.tag.name
+    }
+}
         from "$buildDir/install/xpu-sdk-libs/lib/$archiveName"
         into "$USER_HOME/.xpu/lib/"
     }
@@ -222,14 +239,20 @@ task printScmTagName {
         println scmVersion.tag.name
     }
 }
-
+task printScmTagName {
+    doLast {
+        println scmVersion.tag.name
+    }
+}
 tasks.publishToMavenLocal.dependsOn('jar')
+tasks.publishToMavenLocal.dependsOn('printScmTagName')
 tasks.build.dependsOn('publishToMavenLocal')
 tasks.publish.dependsOn('jar')
 
 tasks.verifyRelease.dependsOn('compileJava')
 tasks.verifyRelease.dependsOn('processResources')
 tasks.verifyRelease.dependsOn('generatePomFileForMavenJavaPublication')
+
 tasks.release.dependsOn('compileJava')
 tasks.release.dependsOn('processResources')
 tasks.release.dependsOn('generatePomFileForMavenJavaPublication')
