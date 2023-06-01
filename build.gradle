@@ -234,11 +234,7 @@ task printScmTagName {
         println scmVersion.tag.name
     }
 }
-task printScmTagName {
-    doLast {
-        println scmVersion.tag.name
-    }
-}
+
 tasks.publishToMavenLocal.dependsOn('jar')
 tasks.publishToMavenLocal.dependsOn('printScmTagName')
 tasks.build.dependsOn('publishToMavenLocal')
