@@ -78,29 +78,31 @@ sourceCompatibility = '19'
 targetCompatibility = '19'
 
 scmVersion {
+    // doc: Dry run
+    localOnly.set( true )// never connect to remote
+    
+    // doc: Version / Tag with highest version
+    useHighestVersion.set(true) 
+    
+    // doc: Uncommitted changes
+    ignoreUncommittedChanges.set(true) // should uncommitted changes force version bump
+        
+    // doc: Version / Sanitization
+    sanitizeVersion.set(true) // should created version be sanitized, true by default
+    
+    tag { // doc: Version / Parsing
+        prefix.set('v')
+        versionSeparator.set('')  // separator between prefix and version number, '' by default, empty String means no separator
+       
+    }
+     
     repository {
         // doc: Repository
         type = 'git' // type of repository
         directory = PROJECT_HOME // repository location
-        remote = 'main' // remote name
+        remote = 'devel' // remote name
     }
-
-    // doc: Dry run
-    localOnly.set( false )// never connect to remote
-
-    // doc: Uncommitted changes
-    ignoreUncommittedChanges.set(true) // should uncommitted changes force version bump
-    // doc: Version / Tag with highest version
-    useHighestVersion.set(true) 
-    
-    // doc: Version / Sanitization
-    sanitizeVersion.set(true) // should created version be sanitized, true by default
-
-    tag { // doc: Version / Parsing
-        prefix.set("v")
-        versionSeparator.set("")  // separator between prefix and version number, '' by default, empty String means no separator
-    }
-
+   
     // doc: Pre-release checks
     checks {
         uncommittedChanges.set(false) // permanently disable uncommitted changes check
