@@ -90,7 +90,7 @@ scmVersion {
 
     // doc: Uncommitted changes
     ignoreUncommittedChanges.set(true) // should uncommitted changes force version bump
-
+    // doc: Version / Tag with highest version
     useHighestVersion.set(true) 
     
     // doc: Version / Sanitization
