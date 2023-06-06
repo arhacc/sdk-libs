@@ -79,7 +79,7 @@ targetCompatibility = '19'
 
 scmVersion {
     // doc: Dry run
-    localOnly.set( false )// never connect to remote
+    localOnly.set( true )// never connect to remote
     
     // doc: Version / Tag with highest version
     useHighestVersion.set(true) 
@@ -100,7 +100,7 @@ scmVersion {
         // doc: Repository
         type = 'git' // type of repository
         directory = PROJECT_HOME // repository location
-        remote = 'devel' // remote name
+        remote = 'main' // remote name
     }
    
     // doc: Pre-release checks
