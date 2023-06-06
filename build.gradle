@@ -85,21 +85,26 @@ scmVersion {
         remote = 'main' // remote name
     }
 
-    tag { // doc: Version / Parsing
-        prefix = 'v'
-        versionSeparator = ''  // separator between prefix and version number, '' by default, empty String means no separator
-    }
-
     // doc: Dry run
-    localOnly = true // never connect to remote
+    localOnly.set( false )// never connect to remote
 
     // doc: Uncommitted changes
-    ignoreUncommittedChanges = false // should uncommitted changes force version bump
+    ignoreUncommittedChanges.set(true) // should uncommitted changes force version bump
+
+    useHighestVersion.set(true) 
+    
+    // doc: Version / Sanitization
+    sanitizeVersion.set(true) // should created version be sanitized, true by default
+
+    tag { // doc: Version / Parsing
+        prefix.set("v")
+        versionSeparator.set("")  // separator between prefix and version number, '' by default, empty String means no separator
+    }
 
     // doc: Pre-release checks
     checks {
-        uncommittedChanges = false // permanently disable uncommitted changes check
-        aheadOfRemote = false // permanently disable ahead of remote check
+        uncommittedChanges.set(false) // permanently disable uncommitted changes check
+        aheadOfRemote.set(false) // permanently disable ahead of remote check
     }
 }
 
@@ -109,7 +114,7 @@ tasks.withType(JavaCompile) {
 
 
 allprojects {
-    project.version = scmVersion.version.replaceAll("-SNAPSHOT","")
+    //project.version = scmVersion.version.replaceAll("-SNAPSHOT","")
 
       gradle.projectsEvaluated {
         tasks.withType(JavaCompile) {
@@ -155,22 +160,17 @@ tasks.named("dependencyUpdates").configure {
 jar {    
     manifest.attributes('Multi-Release': 'true')
 
-
-
     exclude('META-INF/*.SF')
     exclude('META-INF/*.RSA')
     exclude('META-INF/*.DSA')
     
-    //def currentTag = scmVersion.version;
-    //archiveName = currentTag;
-    
-//    dependsOn(release { classifier = null })
+    //dependsOn(release { classifier = null })
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     from {
         configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
     }
     
-    //Check if scmVersion will provide the correct tag
+    //Check available tags
     doLast {
         def process = 'git ls-remote --tags https://github.com/arhacc/sdk-libs'.execute()
         def tags = process.text.readLines()*.split()*.last().collect { it.replaceAll('refs/tags/', '') }
