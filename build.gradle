@@ -79,7 +79,7 @@ targetCompatibility = '19'
 
 scmVersion {
     // doc: Dry run
-    localOnly.set( true )// never connect to remote
+    localOnly.set( false )// never connect to remote
     
     // doc: Version / Tag with highest version
     useHighestVersion.set(true) 
@@ -116,7 +116,7 @@ tasks.withType(JavaCompile) {
 
 
 allprojects {
-    //project.version = scmVersion.version.replaceAll("-SNAPSHOT","")
+    project.version = scmVersion.version.replaceAll("-SNAPSHOT","")
 
       gradle.projectsEvaluated {
         tasks.withType(JavaCompile) {
