@@ -170,13 +170,7 @@ jar {
     from {
         configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
     }
-    
-    //Check available tags
-    doLast {
-        def process = 'git ls-remote --tags https://github.com/arhacc/sdk-libs'.execute()
-        def tags = process.text.readLines()*.split()*.last().collect { it.replaceAll('refs/tags/', '') }
-        logger.lifecycle("TAGS : ${tags}")
-    }   
+       
 }
 
 runtime {
