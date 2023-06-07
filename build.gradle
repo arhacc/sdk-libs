@@ -115,6 +115,7 @@ tasks.withType(JavaCompile) {
 }
 
 
+
 allprojects {
     project.version = scmVersion.version.replaceAll("-SNAPSHOT","")
 
