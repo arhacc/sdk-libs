@@ -27,7 +27,7 @@ jobs:
           source $GITHUB_ENV
           repo_cloned=$REPO_CLONED
           if [ "$repo_cloned" == "false" ]; then
-              git clone https://github.com/arhacc/sdk-libs.git .
+              git clone https://github.com/arhacc/sdk-libs.git
               cd sdk-libs
               git fetch
               git checkout main
