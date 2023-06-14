@@ -52,11 +52,8 @@ jobs:
           source $GITHUB_ENV
           last_tag_valid=${LAST_TAG_PUSHED}
           version=$(echo $last_tag_valid | sed 's/[^0-9]*$//g')
-          echo $version
           new_version=$(echo "$version" | awk -F. '{$NF = $NF + 1;} 1' | sed 's/ /./g')
-          echo $new_version
-          new_tag=$(echo $last_tag_valid | sed "s/[0-9]*$/$new_version/")
-          echo "NEW_TAG=$new_tag" >> $GITHUB_ENV
+          echo "NEW_TAG=$new_version" >> $GITHUB_ENV
 
       - name: Get last commit in main branch
         id: get-last-commit-main
