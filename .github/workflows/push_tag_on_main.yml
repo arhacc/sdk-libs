@@ -75,6 +75,7 @@ jobs:
           new_tag=$NEW_TAG
           last_commit_main=${LAST_COMMIT_MAIN}
           git checkout $last_commit_main
+          ./gradlew cV
           git add .
           git tag $new_tag
           git push origin $new_tag
