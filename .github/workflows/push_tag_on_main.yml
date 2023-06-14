@@ -1,0 +1,57 @@
+name: Push Tag on Main
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  push-tag:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        
+      - name: Clone repo and update
+        run: |
+          git clone https://github.com/arhacc/sdk-libs.git repo
+          cd repo
+          git fetch
+          git checkout main
+          git pull
+
+      - name: Get last tag pushed
+        id: get-last-tag-pushed
+        run: |
+          last_tag_pushed=$(git ls-remote --tags origin | awk -F/ '{print $3}' | sort -V | tail -n1)
+          echo "::set-output name=last-tag::${last_tag_pushed}"
+
+      - name: Increment tag
+        id: increment-tag
+        run: |
+          last_tag_pushed=${{ steps.get-last-tag-pushed.outputs.last-tag }}
+          major=$(echo $last_tag_pushed | cut -d. -f1)
+          minor=$(echo $last_tag_pushed | cut -d. -f2)
+          patch=$(echo $last_tag_pushed | cut -d. -f3)
+          new_tag="$major.$minor.$((patch + 1))"
+          echo "::set-output name=new-tag::$new_tag"
+
+      - name: Get last commit in main branch
+        id: get-last-commit-main
+        run: |
+	      last_commit_main=$(git rev-parse origin/main)
+	      echo "::set-output name=last-commit-main::$last_commit_main"
+
+      - name: Create and push tag
+        run: |
+          new_tag=${{ steps.increment-tag.outputs.new-tag }}
+          last_commit_main=${{ steps.get-last-commit-main.outputs.last-commit-main }}
+          git checkout $last_commit_main .
+          git add .
+          git tag $new_tag
+          git push origin $new_tag
+      
+      - name: Clean up
+        run: |
+          rm -rf repo
