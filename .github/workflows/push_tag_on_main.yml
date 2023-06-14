@@ -12,19 +12,37 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-        
-      - name: Clone repo and update
+      
+      - name: Check if repo is already cloned
+        id: check-repo-cloned
         run: |
-          git clone https://github.com/arhacc/sdk-libs.git repo
-          cd repo
-          git fetch
-          git checkout main
-          git pull
+          if [ -d "sdk-libs" ]; then
+             echo "REPO_CLONED=true" >> $GITHUB_ENV
+          else
+             echo "REPO_CLONED=false" >> $GITHUB_ENV
+          fi
 
+      - name: Clone repo and update OR Update
+        run: |
+          source $GITHUB_ENV
+          repo_cloned=$REPO_CLONED
+          if [ repo_cloned == false ]; then
+              git clone https://github.com/arhacc/sdk-libs.git 
+              cd sdk-libs
+              git fetch
+              git checkout main
+              git pull
+          else
+              cd sdk-libs
+              git fetch
+              git checkout main
+              git pull
+          fi
+          
       - name: Get last tag pushed
         id: get-last-tag-pushed
         run: |
-          last_tag_pushed=$(git ls-remote --tags origin | awk -F/ '{print $3}' | sort -V | tail -n1)
+          last_tag_pushed=$(git describe --tags --abbrev=0 HEAD | awk -F/ '{print $3}' | sort -V | tail -n1)
           echo "::set-output name=last-tag::${last_tag_pushed}"
 
       - name: Increment tag
@@ -34,21 +52,21 @@ jobs:
           version=$(echo $last_tag | sed 's/[^0-9]*$//g')
           new_version=$((version + 1))
           new_tag=$(echo $last_tag | sed "s/[0-9]\+$/ $new_version/")
-          echo "::set-output name=new-tag::$new_tag"
+          echo "NEW_TAG=$new_tag" >> $GITHUB_ENV
 
       - name: Get last commit in main branch
         id: get-last-commit-main
         run: |
           last_commit_main=$(git rev-parse origin/main)
-          echo "::set-output name=last-commit-main::$last_commit_main"
+          echo "LAST_COMMIT_MAIN=$last_commit_main" >> $GITHUB_ENV
 
       - name: Create and push tag
         env:
-          GITHUB_USER: arhacc
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          new_tag=${{ steps.increment-tag.outputs.new-tag }}
-          last_commit_main=${{ steps.get-last-commit-main.outputs.last-commit-main }}
+          source $GITHUB_ENV
+          new_tag=$NEW_TAG
+          last_commit_main=${LAST_COMMIT_MAIN}
           git checkout $last_commit_main .
           git add .
           git tag $new_tag
@@ -56,4 +74,4 @@ jobs:
       
       - name: Clean up
         run: |
-          rm -rf repo
+          rm -rf sdk-libs
