@@ -7,9 +7,9 @@ on:
 
 permissions:
   contents: read
-  refs:
-    - ref: "refs/heads/main"
-      permission: write
+  branches:
+    - main:
+        permission: write
 
 jobs:
   push-tag:
