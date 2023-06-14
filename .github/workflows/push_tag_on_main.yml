@@ -31,10 +31,9 @@ jobs:
         id: increment-tag
         run: |
           last_tag_pushed=${{ steps.get-last-tag-pushed.outputs.last-tag }}
-          major=$(echo $last_tag_pushed | cut -d. -f1)
-          minor=$(echo $last_tag_pushed | cut -d. -f2)
-          patch=$(echo $last_tag_pushed | cut -d. -f3)
-          new_tag="$major.$minor.$((patch + 1))"
+          version=$(echo $last_tag | sed 's/[^0-9]*$//g')
+          new_version=$((version + 1))
+          new_tag=$(echo $last_tag | sed "s/[0-9]\+$/ $new_version/")
           echo "::set-output name=new-tag::$new_tag"
 
       - name: Get last commit in main branch
@@ -44,6 +43,9 @@ jobs:
           echo "::set-output name=last-commit-main::$last_commit_main"
 
       - name: Create and push tag
+        env:
+          GITHUB_USER: arhacc
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           new_tag=${{ steps.increment-tag.outputs.new-tag }}
           last_commit_main=${{ steps.get-last-commit-main.outputs.last-commit-main }}
