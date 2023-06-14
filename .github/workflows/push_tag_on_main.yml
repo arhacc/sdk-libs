@@ -42,7 +42,7 @@ jobs:
       - name: Get last tag pushed
         id: get-last-tag-pushed
         run: |
-          last_tag_pushed=$(git describe --tags --abbrev=0 HEAD)
+          last_tag_pushed=$(git ls-remote --tags origin | awk -F/ '{print $3}' | sort -V | tail -n1)
           echo "LAST_TAG_PUSHED=$last_tag_pushed" >> $GITHUB_ENV
 
       - name: Increment tag
