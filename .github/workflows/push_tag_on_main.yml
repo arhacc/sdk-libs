@@ -75,7 +75,7 @@ jobs:
           new_tag=$NEW_TAG
           last_commit_main=${LAST_COMMIT_MAIN}
           git checkout $last_commit_main
-          git tag -a "$new_tag" -m "Versiunea $new_tag"
+          git tag $new_tag
           git push origin $new_tag
       
       - name: Clean up
