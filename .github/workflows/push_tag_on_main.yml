@@ -6,10 +6,7 @@ on:
       - main
 
 permissions:
-  contents: read
-  branches:
-    - main:
-        permission: write
+  contents: write
 
 jobs:
   push-tag:
