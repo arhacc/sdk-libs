@@ -9,8 +9,6 @@ name: Gradle Package
 
 on:
   push:
-    branches: 
-      - main
     tags: 
       - 'v[0-9]+.[0-9]+.[0-9]+'
       
@@ -38,7 +36,7 @@ jobs:
         echo "github_maven_user=${GITHUB_USER}" > gradle.properties
         echo "github_maven_password=${GITHUB_TOKEN}" >> gradle.properties
     - name: Create Tag
-      run : ./gradlew release -Pversion 0.14.18
+      run : ./gradlew release
     - name: Publish to GitHub Packages
       uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
       with:
