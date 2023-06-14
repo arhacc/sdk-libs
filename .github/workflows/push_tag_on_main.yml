@@ -40,8 +40,8 @@ jobs:
       - name: Get last commit in main branch
         id: get-last-commit-main
         run: |
-	      last_commit_main=$(git rev-parse origin/main)
-	      echo "::set-output name=last-commit-main::$last_commit_main"
+          last_commit_main=$(git rev-parse origin/main)
+          echo "::set-output name=last-commit-main::$last_commit_main"
 
       - name: Create and push tag
         run: |
