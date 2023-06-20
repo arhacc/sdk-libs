@@ -72,8 +72,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           source $GITHUB_ENV
-          git config user.email "arhacc@upb.ro"
-          git config user.username "arhacc"
+          git config user.email "andrei.simion1707@upb.ro"
+          git config user.username "asimion97"
           new_tag=$NEW_TAG
           git remote set-url origin "https://$GITHUB_USER:$GITHUB_TOKEN@github.com/arhacc/sdk-libs.git"
           last_commit_main=${LAST_COMMIT_MAIN}
