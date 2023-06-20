@@ -72,6 +72,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           source $GITHUB_ENV
+          git config user.email arhacc@upb.ro
+          git config user.username arhacc
           new_tag=$NEW_TAG
           last_commit_main=${LAST_COMMIT_MAIN}
           git commit --allow-empty -m "$new_tag"
