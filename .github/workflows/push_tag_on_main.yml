@@ -76,8 +76,10 @@ jobs:
           git config user.username ""
           new_tag=$NEW_TAG
           git remote set-url origin "https://$GITHUB_USER:$GITHUB_TOKEN@github.com/arhacc/sdk-libs.git"
+          last_commit_main=${LAST_COMMIT_MAIN}
+          git checkout $last_commit
           git commit --allow-empty -m "$new_tag"
-          git tag $new_tag
+          git tag $new_tags
           git push origin $new_tag
       
       - name: Clean up
