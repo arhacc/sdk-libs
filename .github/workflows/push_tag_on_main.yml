@@ -63,7 +63,7 @@ jobs:
         run: |
           git fetch
           git pull
-          last_commit_main=$(git rev-parse HEAD)
+          last_commit_main=$(git rev-parse main)
           echo "LAST_COMMIT_MAIN=$last_commit_main" >> $GITHUB_ENV
           
       - name: Create and push tag
