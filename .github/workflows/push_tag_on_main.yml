@@ -65,7 +65,7 @@ jobs:
           git pull
           last_commit_main=$(git rev-parse HEAD)
           echo "LAST_COMMIT_MAIN=$last_commit_main" >> $GITHUB_ENV
-        
+          
       - name: Create and push tag
         env:
           GITHUB_USER: arhacc
@@ -78,7 +78,6 @@ jobs:
           git remote update
           git pull
           last_commit_main=${LAST_COMMIT_MAIN}
-#          git checkout $last_commit
           git commit --allow-empty -m "$new_tag"
           git tag $new_tag
           git push origin $new_tag
