@@ -63,7 +63,7 @@ jobs:
         run: |
           git fetch
           git pull
-          last_commit_main=$(git rev-parse main)
+          last_commit_main=$(git rev-parse HEAD)
           echo "LAST_COMMIT_MAIN=$last_commit_main" >> $GITHUB_ENV
           
       - name: Create and push tag
@@ -75,11 +75,8 @@ jobs:
           new_tag=$NEW_TAG
           git config user.email "$GITHUB_USER@users.noreply.github.com"
           git config user.name  "$GITHUB_USER"
-          git remote update
-          git pull
           last_commit_main=${LAST_COMMIT_MAIN}
-          git checkout main
-          git commit --allow-empty -m "$new_tag"
+          git checkout $last_commit_main
           git tag $new_tag
           git push origin $new_tag
       
