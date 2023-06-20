@@ -72,10 +72,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           source $GITHUB_ENV
-          git config user.email arhacc@upb.ro
-          git config user.username arhacc
+          git config user.email ""
+          git config user.username ""
           new_tag=$NEW_TAG
-          last_commit_main=${LAST_COMMIT_MAIN}
+          git remote set-url origin "https://$GITHUB_USER:$GITHUB_TOKEN@github.com/arhacc/sdk-libs.git"
           git commit --allow-empty -m "$new_tag"
           git tag $new_tag
           git push origin $new_tag
