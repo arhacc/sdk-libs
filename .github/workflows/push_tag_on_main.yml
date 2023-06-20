@@ -78,7 +78,6 @@ jobs:
           last_commit_main=${LAST_COMMIT_MAIN}
           git checkout main
           git add .
-          git commit --allow-empty -m "$new_tag"
           git tag $new_tag
           git push origin $new_tag
       
