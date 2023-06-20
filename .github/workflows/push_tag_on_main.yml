@@ -65,21 +65,6 @@ jobs:
           git pull
           last_commit_main=$(git rev-parse HEAD)
           echo "LAST_COMMIT_MAIN=$last_commit_main" >> $GITHUB_ENV
-          
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-          
-      - name: Restore gradle.properties
-        env:
-          GITHUB_USER: arhacc
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        shell: bash
-        run: |
-          echo "github_maven_user=${GITHUB_USER}" > gradle.properties
-          echo "github_maven_password=${GITHUB_TOKEN}" >> gradle.properties
         
       - name: Create and push tag
         env:
@@ -89,9 +74,7 @@ jobs:
           source $GITHUB_ENV
           new_tag=$NEW_TAG
           last_commit_main=${LAST_COMMIT_MAIN}
-          git checkout $last_commit_main
-          ./gradlew cV
-          git add .
+          git commit --allow-empty -m "$new_tag"
           git tag $new_tag
           git push origin $new_tag
       
