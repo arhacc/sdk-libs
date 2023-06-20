@@ -78,7 +78,7 @@ jobs:
           git remote update
           git pull
           last_commit_main=${LAST_COMMIT_MAIN}
-          git checkout $last_commit
+#          git checkout $last_commit
           git commit --allow-empty -m "$new_tag"
           git tag $new_tag
           git push origin $new_tag
