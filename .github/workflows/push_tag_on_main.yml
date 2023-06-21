@@ -57,14 +57,6 @@ jobs:
           version=$(echo $last_tag_valid | sed 's/[^0-9]*$//g')
           new_version=$(echo "$version" | awk -F. '{$NF = $NF + 1;} 1' | sed 's/ /./g')
           echo "NEW_TAG=$new_version" >> $GITHUB_ENV
-
-      - name: Get last commit in main branch
-        id: get-last-commit-main
-        run: |
-          git fetch
-          git pull
-          last_commit_main=$(git rev-parse HEAD)
-          echo "LAST_COMMIT_MAIN=$last_commit_main" >> $GITHUB_ENV
           
       - name: Create and push tag
         env:
@@ -75,9 +67,9 @@ jobs:
           new_tag=$NEW_TAG
           git config user.email "$GITHUB_USER@users.noreply.github.com"
           git config user.name  "$GITHUB_USER"
-          last_commit_main=${LAST_COMMIT_MAIN}
           git checkout main
           git add .
+          git commit -m "New tag: $new_tag"
           git tag $new_tag
           git push origin $new_tag
       
