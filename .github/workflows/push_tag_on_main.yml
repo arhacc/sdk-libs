@@ -51,9 +51,10 @@ jobs:
    
       - name: Trigger Gradle Publish Workflow
         if: startsWith(github.ref, 'refs/tags/')
-        uses: actions/github-script@v3
+        uses: actions/github-script@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          permission: write
           script: |
             const newTag = process.env.NEW_TAG;
             const owner = process.env.GITHUB_REPOSITORY_OWNER;
