@@ -47,6 +47,7 @@ jobs:
           git add .
           git tag $new_tag
           git push origin $new_tag
+  
 
       - name: Trigger Gradle Publish Workflow
         uses: actions/github-script@v4
@@ -54,8 +55,8 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const newTag = process.env.NEW_TAG;
-            const owner = process.env.GITHUB_REPOSITORY_OWNER;
-            const repo = process.env.GITHUB_REPOSITORY;
+            const owner = 'arhacc';
+            const repo = 'sdk-libs';
             
             const { data: workflowRuns } = await github.actions.listWorkflowRuns({
               owner: owner,
