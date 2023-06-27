@@ -51,30 +51,13 @@ jobs:
    
       - name: Trigger Gradle Publish Workflow
         if: startsWith(github.ref, 'refs/tags/')
-        uses: actions/github-script@v4
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          permission: write
-          script: |
-            const newTag = process.env.NEW_TAG;
-            const owner = process.env.GITHUB_REPOSITORY_OWNER;
-            const repo = process.env.GITHUB_REPOSITORY;
-            
-            const { data: workflowRuns } = await github.actions.listWorkflowRuns({
-              owner: owner,
-              repo: repo,
-              workflow_file_name: 'gradle-publish.yml',
-              event: 'workflow_dispatch'
-            });
-            
-            const latestWorkflowRun = workflowRuns.workflow_runs.find(run => run.status === 'completed');
-            
-            await github.actions.reRunWorkflow({
-              owner: owner,
-              repo: repo,
-              run_id: latestWorkflowRun.id,
-              inputs: {
-                TAG: newTag
-              }
-            });
+        run: |
+          echo "Triggering Gradle Publish Workflow..."
+          newTag=$NEW_TAG
+
+          curl -X POST \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            "https://api.github.com/repos/arhacc/sdk-libs/actions/workflows/gradle-publish.yml/dispatches" \
+            -d '{"ref":"refs/tags/'"$newTag"'"}'
 
