@@ -62,7 +62,8 @@ jobs:
               repo: repo,
               workflow_file_name: 'gradle-publish.yml',
               event: 'push',
-              branch: 'main'
+              branch: 'main',
+              status: 'completed'
             });
             
             const latestWorkflowRun = workflowRuns.workflow_runs.find(run => run.status === 'completed');
