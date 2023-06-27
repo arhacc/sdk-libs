@@ -50,6 +50,8 @@ jobs:
 
    
       - name: Trigger Gradle Publish Workflow
+        with:
+          permission: write
         run: |
           echo "Triggering Gradle Publish Workflow..."
           newTag=$NEW_TAG
