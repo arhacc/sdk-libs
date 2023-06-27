@@ -48,12 +48,14 @@ jobs:
           git tag $new_tag
           git push origin $new_tag
 
-   
       - name: Trigger Gradle Publish Workflow
-        with:
-          permission: write
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        permissions:
+          contents: write
         run: |
           echo "Triggering Gradle Publish Workflow..."
+          source $GITHUB_ENV
           newTag=$NEW_TAG
 
           curl -X POST \
