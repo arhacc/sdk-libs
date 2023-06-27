@@ -50,7 +50,6 @@ jobs:
 
    
       - name: Trigger Gradle Publish Workflow
-        if: startsWith(github.ref, 'refs/tags/')
         run: |
           echo "Triggering Gradle Publish Workflow..."
           newTag=$NEW_TAG
