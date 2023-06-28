@@ -48,12 +48,11 @@ jobs:
           git tag $new_tag
           git push origin $new_tag
 
-          # Construct the API URL for triggering the workflow in the other repository
-          api_url="https://api.github.com/repos/arhacc/sdk-libs/actions/workflows/gradle-publish.yml/runs"
+      - name: Trigger Gradle Publish Workflow
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          event-type: publish-gradle
+          client-payload: '{"tag" : "${{ env.NEW_TAG }}"}'
           
-          # Make a POST request to trigger the workflow
-          curl -X POST $api_url \
-            -H "Authorization: Bearer $GITHUB_TOKEN" \
-            -H "Content-Type: application/json" \
-            -d "{\"ref\":\"main\", \"inputs\": {\"TAG\":\"$new_tag\"}}"
-      
