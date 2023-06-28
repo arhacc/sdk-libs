@@ -39,7 +39,9 @@ jobs:
         echo "github_maven_user=${GITHUB_USER}" > gradle.properties
         echo "github_maven_password=${GITHUB_TOKEN}" >> gradle.properties
     - name: Create Tag
-      run : ./gradlew release
+      run : |
+        TAG="${GITHUB_REF##*/}"
+        ./gradlew release -Prelease.useAutomaticVersion=true -Prelease.version=$TAG
     - name: Publish to GitHub Packages
       uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
       with:
