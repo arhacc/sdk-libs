@@ -14,34 +14,8 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       
-      - name: Check if repo is already cloned
-        id: check-repo-cloned
-        run: |
-          if [ -d "sdk-libs" ]; then
-             echo "REPO_CLONED=true" >> $GITHUB_ENV
-          else
-             echo "REPO_CLONED=false" >> $GITHUB_ENV
-          fi
-
-      - name: Clone repo and update OR Update
-        run: |
-          source $GITHUB_ENV
-          repo_cloned=$REPO_CLONED
-          if [ "$repo_cloned" == "false" ]; then
-              git clone https://github.com/arhacc/sdk-libs.git
-              cd sdk-libs
-              git fetch
-              git checkout main
-              git pull
-          else
-              cd sdk-libs
-              git fetch
-              git checkout main
-              git pull
-          fi
-          
       - name: Get last tag pushed
         id: get-last-tag-pushed
         run: |
@@ -73,7 +47,12 @@ jobs:
           git add .
           git tag $new_tag
           git push origin $new_tag
-      
-      - name: Clean up
-        run: |
-          rm -rf sdk-libs
+
+      - name: Trigger Gradle Publish Workflow
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          event-type: gradle-publish
+          client-payload: '{"tag" : "${{ env.NEW_TAG }}"}'
+          
