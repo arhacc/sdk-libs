@@ -53,6 +53,6 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           repository: ${{ github.repository }}
-          workflow: gradle-publish.yml
+          event-type: gradle-publish
           client-payload: '{"tag" : "${{ env.NEW_TAG }}"}'
           

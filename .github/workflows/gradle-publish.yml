@@ -11,7 +11,10 @@ on:
   push:
     tags: 
       - 'v[0-9]+.[0-9]+.[0-9]+'
-      
+  repository_dispatch:
+    types:
+      - gradle-publish
+
 jobs:
 
   build:
