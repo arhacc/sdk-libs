@@ -91,7 +91,11 @@ dependencies {
     implementation ('org.eclipse.aether:aether-transport-file:1.1.0');
     implementation ('org.apache.httpcomponents:httpclient:4.5.13');
     implementation ('org.twdata.maven:mojo-executor:2.4.1-m2');
-    implementation ('org.apache.maven:apache-maven:4.0.0-alpha-7');
+    implementation ('org.apache.maven:apache-maven'){
+        version {
+            strictly '3.9.3'
+        }
+    }
 }
 
 sourceCompatibility = '19'
