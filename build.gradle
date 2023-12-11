@@ -88,6 +88,9 @@ dependencies {
     implementation ('org.springframework.boot:spring-boot-starter-webflux:3.2.0');
     implementation ('io.netty:netty-resolver-dns-native-macos:4.1.101.Final');
     implementation ('io.netty:netty-resolver-dns-native-macos:4.1.101.Final:osx-aarch_64');
+
+    implementation ('io.github.vincenzopalazzo:material-ui-swing:1.1.2');
+    implementation ('com.formdev:flatlaf:3.2.5');
 }
 
 sourceCompatibility = '19'
@@ -169,11 +172,6 @@ publishing {
     }
 }
 
-
-
-tasks.named("dependencyUpdates").configure {
-
-}
 
 jar {    
     manifest.attributes('Multi-Release': 'true')
