@@ -45,8 +45,8 @@ dependencies {
     implementation ('com.fifesoft:rsyntaxtextarea:3.3.4');
     implementation ('com.esotericsoftware.kryo:kryo5:5.5.0');
     implementation ('com.formdev:flatlaf:3.2.5');
-    implementation 'com.microsoft.onnxruntime:onnxruntime:1.16.3'
-//    implementation 'com.microsoft.onnxruntime:onnxruntime_gpu:1.15.1'
+    implementation 'com.microsoft.onnxruntime:onnxruntime:1.17.1'
+    implementation 'com.microsoft.onnxruntime:onnxruntime_gpu:1.17.1'
 
     implementation ('org.apache.lucene:lucene-core:9.9.0');
     implementation ('org.apache.commons:commons-configuration2:2.9.0');
