@@ -3,4 +3,4 @@
 "${ARHACC_PATH}/sdk-libs/bin/compile"
 
 mkdir -p "${XPU_HOME}/lib"
-cp "${ARHACC_PATH}/sdk-libs/build/libs"/*.jar "${XPU_HOME}/lib"
+install -C "${ARHACC_PATH}/sdk-libs/build/libs"/*.jar "${XPU_HOME}/lib"
