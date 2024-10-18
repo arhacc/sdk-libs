@@ -1,5 +1,5 @@
 #!/bin/bash
 
-source header
+source "${ARHACC_PATH}/sdk-libs/bin/header"
 
-gradle -b $BUILD_GRADLE_FILE build $*
+"${ARHACC_PATH}/sdk-libs/gradlew" -p "${ARHACC_PATH}/sdk-libs" build "${@}"

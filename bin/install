@@ -1,5 +1,6 @@
 #!/bin/bash
 
-source header
+"${ARHACC_PATH}/sdk-libs/bin/compile"
 
-gradle -b $BUILD_GRADLE_FILE publishToMavenLocal runtime $*
+mkdir -p "${XPU_HOME}/lib"
+cp "${ARHACC_PATH}/sdk-libs/build/libs"/*.jar "${XPU_HOME}/lib"
