@@ -95,8 +95,8 @@ dependencies {
     implementation ('org.msgpack:msgpack-core:0.9.8');
 }
 
-sourceCompatibility = '19'
-targetCompatibility = '19'
+sourceCompatibility = '22'
+targetCompatibility = '22'
 
 scmVersion {
     // doc: Dry run
@@ -219,14 +219,6 @@ runtime {
     }
 }
 
-tasks.runtime.doLast {
-    def archiveName = jar.archiveFile.asFile.get().name
-    delete fileTree(dir:XPU_HOME_LIB, include: 'xpu-sdk-libs-*.jar') 
-    copy{
-        from "$buildDir/install/xpu-sdk-libs/lib/$archiveName"
-        into XPU_HOME_LIB
-    }
-}
 
 useLatestVersions {
    updateWhitelist = []

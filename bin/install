@@ -1,6 +1,7 @@
 #!/bin/bash
 
+rm -fr "${ARHACC_PATH}/sdk-libs/build/libs"/*.jar
 "${ARHACC_PATH}/sdk-libs/bin/compile"
 
 mkdir -p "${XPU_HOME}/lib"
-install -C "${ARHACC_PATH}/sdk-libs/build/libs"/*.jar "${XPU_HOME}/lib"
+/usr/bin/install -C "${ARHACC_PATH}/sdk-libs/build/libs"/*.jar "${XPU_HOME}/lib"
