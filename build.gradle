@@ -97,7 +97,9 @@ dependencies {
     implementation ('com.formdev:flatlaf:3.5.2');
     implementation ('org.msgpack:msgpack-core:0.9.8');
 
-    implementation ('org.graalvm.js:js:24.1.1');
+//    implementation ('org.graalvm.polyglot:js:24.1.1');
+
+/*
     implementation ('org.graalvm.js:js-scriptengine:24.1.1');
     implementation ('org.graalvm.js:js-community:24.1.1');
     implementation ('org.graalvm.polyglot:polyglot:24.1.1');
@@ -106,16 +108,17 @@ dependencies {
     implementation ('org.graalvm.polyglot:js:24.1.1');
     implementation ('org.graalvm.sdk:graal-sdk:24.1.1');
 
+    implementation ('org.graalvm.truffle:truffle-api:24.1.1');
     implementation ('org.graalvm.truffle:truffle-compiler:24.1.1');
     implementation ('org.graalvm.truffle:truffle-runtime:24.1.1');
-
+*/
 
 
     implementation ('com.github.vlsi.mxgraph:jgraphx:4.2.2');
 }
 
-sourceCompatibility = '22'
-targetCompatibility = '22'
+sourceCompatibility = '23'
+targetCompatibility = '23'
 
 scmVersion {
     // doc: Dry run
